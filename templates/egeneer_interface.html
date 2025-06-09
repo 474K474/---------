@@ -43,68 +43,69 @@
                 <div class="limit_column">
                     <div class="input-box">
                         <label>t</label>
-                        <input type="text" id="limit_left_t" placeholder="limit_left_t">
+                        <input type="text" id="limit_left_t" placeholder="0">
                     </div>
                     <div class="input-box">
                         <label>m</label>
-                        <input type="text" id="limit_left_m" placeholder="limit_left_m">
+                        <input type="text" id="limit_left_m" placeholder="0">
                     </div>
                     <div class="input-box">
                         <label>l</label>
-                        <input type="text" id="limit_left_l" placeholder="limit_left_l">
+                        <input type="text" id="limit_left_l" placeholder="0">
                     </div>
                 </div>
                 <div class="limit_column">
                     <div class="input-box">
                         <label>t</label>
-                        <input type="text" id="limit_right_t" placeholder="limit_right_t">
+                        <input type="text" id="limit_right_t" placeholder="50">
                     </div>
                     <div class="input-box">
                         <label>m</label>
-                        <input type="text" id="limit_right_m" placeholder="limit_right_m">
+                        <input type="text" id="limit_right_m" placeholder="1000">
                     </div>
                     <div class="input-box">
                         <label>l</label>
-                        <input type="text" id="limit_right_l" placeholder="limit_right_l">
+                        <input type="text" id="limit_right_l" placeholder="50">
                     </div>
                 </div>
-                </div>
-                <hr>
+            </div>
+            <hr>
             <label>Критические значения</label>
             <div class="limits">
                 <div class="limit_column">
                     <div class="input-box">
                         <label>t</label>
-                        <input type="text" id="critical_left_t" placeholder="critical_left_t">
+                        <input type="text" id="critical_left_t" placeholder="0">
                     </div>
                     <div class="input-box">
                         <label>m</label>
-                        <input type="text" id="critical_left_m" placeholder="critical_left_m">
+                        <input type="text" id="critical_left_m" placeholder="0">
                     </div>
                     <div class="input-box">
                         <label>l</label>
-                        <input type="text" id="critical_left_l" placeholder="critical_left_l">
+                        <input type="text" id="critical_left_l" placeholder="0">
                     </div>
                 </div>
                 <div class="limit_column">
                     <div class="input-box">
                         <label>t</label>
-                        <input type="text" id="critical_right_t" placeholder="critical_right_t">
+                        <input type="text" id="critical_right_t" placeholder="50">
                     </div>
                     <div class="input-box">
                         <label>m</label>
-                        <input type="text" id="critical_right_m" placeholder="critical_right_m">
+                        <input type="text" id="critical_right_m" placeholder="1000">
                     </div>
                     <div class="input-box">
                         <label>l</label>
-                        <input type="text" id="critical_right_l" placeholder="critical_right_l">
+                        <input type="text" id="critical_right_l" placeholder="50">
                     </div>
                 </div>
-                </div>
+            </div>
             <hr>
-            <label id = "limit_signal" style = 'display: none'> Внимание! Выход за допустимые значения</label>
-            <hr>
-            <label id = "critical_signal" style = 'display: none'> Внимание! Выход за критические значения</label>
+            <div class="history-container">
+                <h3>История критических состояний</h3>
+                <div id="critical-history" class="history-list"></div>
+            </div>
         </div>
 
 

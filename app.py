@@ -4,7 +4,7 @@ import logger
 import threading
 import datetime
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from things import *
 
 
@@ -191,6 +191,23 @@ def engineer_interface():
 @app.route('/operator_interface')
 def operator_interface():
     return render_template('operator_interface.html')
+
+
+@app.route('/log_critical', methods=['POST'])
+def log_critical():
+    try:
+        data = request.get_json()
+        timestamp = data.get('timestamp')
+        messages = data.get('messages')
+        
+        # Записываем в отдельный файл для критических значений
+        with open('critical_values.log', 'a', encoding='utf-8') as f:
+            for message in messages:
+                f.write(f"{timestamp}: {message}\n")
+        
+        return jsonify({'status': 'success'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
 if __name__ == '__main__':

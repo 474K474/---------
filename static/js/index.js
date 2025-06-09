@@ -46,68 +46,141 @@ function send_is_logging(){
 }
 
 
-function check_sensor(response){
-    let temperature_mass = ['t1', 't2', 't3', 't4', 't5', 't6']
-    let load_mass = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6']
-    let motor_mass = ['m1', 'm2', 'm3', 'm4', 'm5', 'm6']
-
-    for (sensor in temperature_mass){
-        if (Number(document.getElementById("limit_left_t").value) > Number(response[temperature_mass[sensor]]) ||
-            Number(response[temperature_mass[sensor]]) > Number(document.getElementById("limit_right_t").value)) {
-            document.getElementById("limit_signal").style.display = 'block'
-        }
-        else{
-            document.getElementById("limit_signal").style.display = 'none'
-        }
-
-        if (Number(document.getElementById("critical_left_t").value) > Number(response[temperature_mass[sensor]]) ||
-            Number(response[temperature_mass[sensor]]) > Number(document.getElementById("critical_right_t").value)) {
-            document.getElementById("critical_signal").style.display = 'block'
-        }
-        else{
-            document.getElementById("critical_signal").style.display = 'none'
-        }
+// Функция для добавления записи в историю оповещений
+function addAlertToHistory(message, type) {
+    const alertsLog = document.getElementById('alerts-log');
+    const timestamp = new Date().toLocaleString();
+    const alertElement = document.createElement('div');
+    alertElement.className = `alert ${type === 'critical' ? 'alert-critical' : 'alert-warning'}`;
+    
+    const statusIndicator = document.createElement('div');
+    statusIndicator.className = `parameter-status ${type === 'critical' ? 'status-critical' : 'status-warning'}`;
+    
+    const textContent = document.createElement('span');
+    textContent.textContent = `${timestamp}: ${message}`;
+    
+    alertElement.appendChild(statusIndicator);
+    alertElement.appendChild(textContent);
+    
+    // Добавляем новое оповещение в начало списка
+    alertsLog.insertBefore(alertElement, alertsLog.firstChild);
+    
+    // Ограничиваем количество отображаемых оповещений
+    while (alertsLog.children.length > 10) {
+        alertsLog.removeChild(alertsLog.lastChild);
     }
+}
 
-    for (sensor in load_mass){
-        if (Number(document.getElementById("limit_left_l").value) > Number(response[temperature_mass[sensor]]) ||
-            Number(response[temperature_mass[sensor]]) > Number(document.getElementById("limit_right_l").value)) {
-            document.getElementById("limit_signal").style.display = 'block'
-        }
-        else{
-            document.getElementById("limit_signal").style.display = 'none'
-        }
+// Обновляем функцию check_sensor для использования новой системы оповещений
+function check_sensor(response) {
+    let temperature_mass = ['t1_1', 't2_1', 't3_1', 't4_1', 't5_1', 't6_1'];
+    let load_mass = ['l1_1', 'l2_1', 'l3_1', 'l4_1', 'l5_1', 'l6_1'];
+    let motor_mass = ['m1_1', 'm2_1', 'm3_1', 'm4_1', 'm5_1', 'm6_1'];
+    
+    let criticalMessages = [];
 
-        if (Number(document.getElementById("critical_left_l").value) > Number(response[temperature_mass[sensor]]) ||
-            Number(response[temperature_mass[sensor]]) > Number(document.getElementById("critical_right_l").value)) {
-            document.getElementById("critical_signal").style.display = 'block'
-        }
-        else{
-            document.getElementById("critical_signal").style.display = 'none'
-        }
-    }
+    // Проверка температуры
+    temperature_mass.forEach((sensor, index) => {
+        const value = Number(response[sensor]);
+        if (!isNaN(value)) {
+            const criticalLeft = Number(document.getElementById("critical_left_t").value || document.getElementById("critical_left_t").placeholder || 0);
+            const criticalRight = Number(document.getElementById("critical_right_t").value || document.getElementById("critical_right_t").placeholder || 50);
 
+            if (value < criticalLeft || value > criticalRight) {
+                criticalMessages.push(`Температура t${index + 1}: ${value}°C вышла за критические пределы [${criticalLeft}, ${criticalRight}]°C`);
+            }
+        }
+    });
 
-    for (sensor in motor_mass){
-        if (Number(document.getElementById("limit_left_m").value) > Number(response[temperature_mass[sensor]]) ||
-            Number(response[temperature_mass[sensor]]) > Number(document.getElementById("limit_right_m").value)) {
-            document.getElementById("limit_signal").style.display = 'block'
-        }
-        else{
-            document.getElementById("limit_signal").style.display = 'none'
-        }
+    // Проверка нагрузки
+    load_mass.forEach((sensor, index) => {
+        const value = Number(response[sensor]);
+        if (!isNaN(value)) {
+            const criticalLeft = Number(document.getElementById("critical_left_l").value || document.getElementById("critical_left_l").placeholder || 0);
+            const criticalRight = Number(document.getElementById("critical_right_l").value || document.getElementById("critical_right_l").placeholder || 50);
 
-        if (Number(document.getElementById("critical_left_m").value) > Number(response[temperature_mass[sensor]]) ||
-            Number(response[temperature_mass[sensor]]) > Number(document.getElementById("critical_right_m").value)) {
-            document.getElementById("critical_signal").style.display = 'block'
+            if (value < criticalLeft || value > criticalRight) {
+                criticalMessages.push(`Нагрузка l${index + 1}: ${value}% вышла за критические пределы [${criticalLeft}, ${criticalRight}]%`);
+            }
         }
-        else{
-            document.getElementById("critical_signal").style.display = 'none'
+    });
+
+    // Проверка энкодеров
+    motor_mass.forEach((sensor, index) => {
+        const value = Number(response[sensor]);
+        if (!isNaN(value)) {
+            const criticalLeft = Number(document.getElementById("critical_left_m").value || document.getElementById("critical_left_m").placeholder || 0);
+            const criticalRight = Number(document.getElementById("critical_right_m").value || document.getElementById("critical_right_m").placeholder || 1000);
+
+            if (value < criticalLeft || value > criticalRight) {
+                criticalMessages.push(`Энкодер m${index + 1}: ${value} вышел за критические пределы [${criticalLeft}, ${criticalRight}]`);
+            }
+        }
+    });
+
+    // Если есть критические сообщения, добавляем их в историю
+    if (criticalMessages.length > 0) {
+        const timestamp = new Date().toLocaleString();
+        const historyElement = document.getElementById("critical-history");
+        
+        if (historyElement) {
+            criticalMessages.forEach(message => {
+                const messageElement = document.createElement("div");
+                messageElement.className = "history-item";
+                messageElement.innerHTML = `<span class="timestamp">[${timestamp}]</span> ${message}`;
+                historyElement.insertBefore(messageElement, historyElement.firstChild);
+            });
+
+            // Отправляем критические значения в лог
+            $.ajax({
+                type: 'POST',
+                url: '/log_critical',
+                data: JSON.stringify({
+                    timestamp: new Date().toISOString(),
+                    messages: criticalMessages
+                }),
+                contentType: 'application/json'
+            });
         }
     }
 }
 
+// Добавляем стили для истории
+const style = document.createElement('style');
+style.textContent = `
+.history-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #fff;
+}
 
+.history-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.history-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #d32f2f;
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.timestamp {
+    color: #666;
+    margin-right: 10px;
+    font-weight: bold;
+}
+`;
+document.head.appendChild(style);
 
 function connect_robot_1() {
     $.ajax({
@@ -328,3 +401,87 @@ function calibrateEncoderMX(value) {
     if (value === -1) return null;
     return (value * 360) / 4096;
 }
+
+// Функция сохранения настроек
+function saveSettings() {
+    const settings = {
+        // Пороговые значения
+        limitLeftT: document.getElementById("limit_left_t").value,
+        limitRightT: document.getElementById("limit_right_t").value,
+        limitLeftM: document.getElementById("limit_left_m").value,
+        limitRightM: document.getElementById("limit_right_m").value,
+        limitLeftL: document.getElementById("limit_left_l").value,
+        limitRightL: document.getElementById("limit_right_l").value,
+        
+        // Критические значения
+        criticalLeftT: document.getElementById("critical_left_t").value,
+        criticalRightT: document.getElementById("critical_right_t").value,
+        criticalLeftM: document.getElementById("critical_left_m").value,
+        criticalRightM: document.getElementById("critical_right_m").value,
+        criticalLeftL: document.getElementById("critical_left_l").value,
+        criticalRightL: document.getElementById("critical_right_l").value,
+        
+        // Настройки подключения
+        updatePeriod: document.getElementById("update_period").value,
+        isConnected: document.getElementById("connect").checked,
+        isLogging: document.getElementById("save_data").checked
+    };
+    
+    localStorage.setItem('engineerSettings', JSON.stringify(settings));
+}
+
+// Функция загрузки настроек
+function loadSettings() {
+    const settings = JSON.parse(localStorage.getItem('engineerSettings'));
+    if (settings) {
+        // Загружаем пороговые значения
+        document.getElementById("limit_left_t").value = settings.limitLeftT;
+        document.getElementById("limit_right_t").value = settings.limitRightT;
+        document.getElementById("limit_left_m").value = settings.limitLeftM;
+        document.getElementById("limit_right_m").value = settings.limitRightM;
+        document.getElementById("limit_left_l").value = settings.limitLeftL;
+        document.getElementById("limit_right_l").value = settings.limitRightL;
+        
+        // Загружаем критические значения
+        document.getElementById("critical_left_t").value = settings.criticalLeftT;
+        document.getElementById("critical_right_t").value = settings.criticalRightT;
+        document.getElementById("critical_left_m").value = settings.criticalLeftM;
+        document.getElementById("critical_right_m").value = settings.criticalRightM;
+        document.getElementById("critical_left_l").value = settings.criticalLeftL;
+        document.getElementById("critical_right_l").value = settings.criticalRightL;
+        
+        // Загружаем настройки подключения
+        document.getElementById("update_period").value = settings.updatePeriod;
+        document.getElementById("connect").checked = settings.isConnected;
+        document.getElementById("save_data").checked = settings.isLogging;
+        
+        // Применяем настройки
+        set_interval_connect();
+        send_is_logging();
+    }
+}
+
+// Сохраняем настройки при изменении значений
+function setupSettingsSaving() {
+    const inputs = [
+        "limit_left_t", "limit_right_t", "limit_left_m", "limit_right_m", 
+        "limit_left_l", "limit_right_l", "critical_left_t", "critical_right_t",
+        "critical_left_m", "critical_right_m", "critical_left_l", "critical_right_l"
+    ];
+    
+    inputs.forEach(id => {
+        document.getElementById(id).addEventListener('change', saveSettings);
+    });
+    
+    document.getElementById("connect").addEventListener('change', saveSettings);
+    document.getElementById("save_data").addEventListener('change', saveSettings);
+}
+
+// Загружаем настройки при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    loadSettings();
+    setupSettingsSaving();
+});
+
+// Сохраняем настройки перед закрытием страницы
+window.addEventListener('beforeunload', saveSettings);

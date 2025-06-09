@@ -149,3 +149,57 @@ input[value="ERR"] {
     justify-content: center;
     align-content: center;
 }
+
+/* Стили для сигнализации */
+.alert {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border: 2px solid #ffeeba;
+    color: #856404;
+}
+
+.alert-critical {
+    background-color: #f8d7da;
+    border: 2px solid #f5c6cb;
+    color: #721c24;
+    animation: blink 1s infinite;
+}
+
+.alert-normal {
+    background-color: #d4edda;
+    border: 2px solid #c3e6cb;
+    color: #155724;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.parameter-status {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.status-normal {
+    background-color: #28a745;
+}
+
+.status-warning {
+    background-color: #ffc107;
+}
+
+.status-critical {
+    background-color: #dc3545;
+    animation: blink 1s infinite;
+}
