@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sensor Emulator</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+    <script src="http://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="../static/js/index.js"></script>
+    <script src="https://unpkg.com/chart.js@3.5.0/dist/chart.min.js"></script>
+</head>
+<body>
+    <div id="main">
+        <div class="panel">
+            <label>Получать данные с оборудования</label>
+            <label class="switch">
+                <input type="checkbox" id="connect">
+                <span class="slider round"></span>
+            </label>
+            <hr>
+            <label>Отправлять данные</label>
+            <label class="switch">
+                <input type="checkbox" id="send_data">
+                <span class="slider round"></span>
+            </label>
+            <hr>
+            <div id="pov_manipulate"></div>
+        </div>
+
+
+<div class="interface">
+            <div class="thing" id = robot_left>
+                <div class="sensors">
+                    <div class="sensor" id="temp">
+                        <div class="input-box">
+                            <label>t1, C</label>
+                            <input type="text" id="t1_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>t2, C</label>
+                            <input type="text" id="t2_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>t3, C</label>
+                            <input type="text" id="t3_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>t4, C</label>
+                            <input type="text" id="t4_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>t5, C</label>
+                            <input type="text" id="t5_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>t6, C</label>
+                            <input type="text" id="t6_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>n</label>
+                            <input type="text" id="n_1" placeholder="n">
+                        </div>
+                    </div>
+                    <div class="sensor" id="load">
+                        <div class="input-box">
+                            <label>l1</label>
+                            <input type="text" id="l1_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>l2</label>
+                            <input type="text" id="l2_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>l3</label>
+                            <input type="text" id="l3_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>l4</label>
+                            <input type="text" id="l4_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>l5</label>
+                            <input type="text" id="l5_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>l6</label>
+                            <input type="text" id="l6_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>s</label>
+                            <input type="text" id="s_1" placeholder="s">
+                        </div>
+                    </div>
+                    <div class="sensor" id="motor">
+                        <div class="input-box">
+                            <label>m1</label>
+                            <input type="text" id="m1_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>m2</label>
+                            <input type="text" id="m2_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>m3</label>
+                            <input type="text" id="m3_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>m4</label>
+                            <input type="text" id="m4_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>m5</label>
+                            <input type="text" id="m5_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>m6</label>
+                            <input type="text" id="m6_1" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>c</label>
+                            <input type="text" id="c_1" placeholder="c">
+                        </div>
+                    </div>
+
+                    <div class="sensor" id="motor_priv">
+                        <div class="input-box">
+                            <label>m1_priv, об. градусы</label>
+                            <input type="text" id="m1_1_priv" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>m2_priv, об. градусы</label>
+                            <input type="text" id="m2_1_priv" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>m3_priv, об. градусы</label>
+                            <input type="text" id="m3_1_priv" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>m4_priv, об. градусы</label>
+                            <input type="text" id="m4_1_priv" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>m5_priv, об. градусы</label>
+                            <input type="text" id="m5_1_priv" placeholder="C">
+                        </div>
+                        <div class="input-box">
+                            <label>m6_priv, об. градусы</label>
+                            <input type="text" id="m6_1_priv" placeholder="C">
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="control">
+                    <div class="input-box">
+                        <label>N</label>
+                        <input type="text" id="N_control_1" placeholder="c" >
+                    </div>
+                    <div class="input-box">
+                        <label>X</label>
+                        <input type="text" id="X_1" placeholder="X" >
+                    </div>
+                    <div class="input-box">
+                        <label>Y</label>
+                        <input type="text" id="Y_1" placeholder="Y" >
+                    </div>
+                    <div class="input-box">
+                        <label>T</label>
+                        <input type="text" id="T_1" placeholder="T" >
+                    </div>
+                    <div class="input-box">
+                        <label>G</label>
+                        <input type="text" id="G_1" placeholder="G" >
+                    </div>
+                </div>
+                            <button onclick="send_robot_gripper_data()">Отпрвить команду</button>
+            </div>
+
+            <div class="thing" id = robot_right>
+                <div class="sensors">
+                    <div class="sensor" id="temp_2">
+                        <div class="input-box">
+                            <label>t1, C</label>
+                            <input type="text" id="t1_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>t2, C</label>
+                            <input type="text" id="t2_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>t3, C</label>
+                            <input type="text" id="t3_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>t4, C</label>
+                            <input type="text" id="t4_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>t5, C</label>
+                            <input type="text" id="t5_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>t6, C</label>
+                            <input type="text" id="t6_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>n</label>
+                            <input type="text" id="n_2" placeholder="n" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="sensor" id="load_2">
+                        <div class="input-box">
+                            <label>l1</label>
+                            <input type="text" id="l1_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>l2</label>
+                            <input type="text" id="l2_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>l3</label>
+                            <input type="text" id="l3_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>l4</label>
+                            <input type="text" id="l4_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>l5</label>
+                            <input type="text" id="l5_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>l6</label>
+                            <input type="text" id="l6_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>s</label>
+                            <input type="text" id="s_2" placeholder="s" disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="sensor" id="motor_2">
+                        <div class="input-box">
+                            <label>m1</label>
+                            <input type="text" id="m1_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>m2</label>
+                            <input type="text" id="m2_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>m3</label>
+                            <input type="text" id="m3_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>m4</label>
+                            <input type="text" id="m4_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>m5</label>
+                            <input type="text" id="m5_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>m6</label>
+                            <input type="text" id="m6_2" placeholder="C" disabled="disabled">
+                        </div>
+                        <div class="input-box">
+                            <label>c</label>
+                            <input type="text" id="c_2" placeholder="c" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+                <div class="control">
+                    <div class="input-box">
+                        <label>N</label>
+                        <input type="text" id="N_control_2" placeholder="c" >
+                    </div>
+                    <div class="input-box">
+                        <label>X</label>
+                        <input type="text" id="X_2" placeholder="X" >
+                    </div>
+                    <div class="input-box">
+                        <label>Y</label>
+                        <input type="text" id="Y_2" placeholder="Y" >
+                    </div>
+                    <div class="input-box">
+                        <label>T</label>
+                        <input type="text" id="V_2" placeholder="V" >
+                    </div>
+                </div>
+
+                <button onclick="send_robot_vacuum_data()">Отпрвить команду</button>
+            </div>
+            <hr>
+            <hr>
+            <label for=""> Удаленный терминал</label>
+            <div class="colors">
+                <label class="switch">
+                    <input type="checkbox" id="remote_terminal_blue">
+                    <span class="slider round"></span>
+                </label>
+
+                <label class="switch">
+                    <input type="checkbox" id="remote_terminal_red">
+                    <span class="slider round"></span>
+                </label>
+
+                <label class="switch">
+                    <input type="checkbox" id="remote_terminal_yellow">
+                    <span class="slider round"></span>
+                </label>
+
+                <label class="switch">
+                    <input type="checkbox" id="remote_terminal_green">
+                    <span class="slider round"></span>
+                </label>
+
+            </div>
+
+            <hr>
+            <hr>
+            <label for=""> Светосигнальная лампа</label>
+            <div class="colors">
+                <label class="switch">
+                    <input type="checkbox" id="traffic_lights_blue">
+                    <span class="slider round"></span>
+                </label>
+
+                <label class="switch">
+                    <input type="checkbox" id="traffic_lights_red">
+                    <span class="slider round"></span>
+                </label>
+
+                <label class="switch">
+                    <input type="checkbox" id="traffic_lights_yellow">
+                    <span class="slider round"></span>
+                </label>
+
+                <label class="switch">
+                    <input type="checkbox" id="traffic_lights_green">
+                    <span class="slider round"></span>
+                </label>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</body>
+</html>
