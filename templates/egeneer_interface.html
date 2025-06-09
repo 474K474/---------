@@ -112,28 +112,29 @@
             <div class="thing" id = robot_left>
                 <div class="sensors">
                     <div class="sensor" id="temp">
+                        <h4>Сырые данные температуры</h4>
                         <div class="input-box">
-                            <label>t1, C</label>
+                            <label>t1</label>
                             <input type="text" id="t1_1" placeholder="C">
                         </div>
                         <div class="input-box">
-                            <label>t2, C</label>
+                            <label>t2</label>
                             <input type="text" id="t2_1" placeholder="C">
                         </div>
                         <div class="input-box">
-                            <label>t3, C</label>
+                            <label>t3</label>
                             <input type="text" id="t3_1" placeholder="C">
                         </div>
                         <div class="input-box">
-                            <label>t4, C</label>
+                            <label>t4</label>
                             <input type="text" id="t4_1" placeholder="C">
                         </div>
                         <div class="input-box">
-                            <label>t5, C</label>
+                            <label>t5</label>
                             <input type="text" id="t5_1" placeholder="C">
                         </div>
                         <div class="input-box">
-                            <label>t6, C</label>
+                            <label>t6</label>
                             <input type="text" id="t6_1" placeholder="C">
                         </div>
                         <div class="input-box">
@@ -141,60 +142,120 @@
                             <input type="text" id="n_1" placeholder="n">
                         </div>
                     </div>
+
+                    <div class="sensor" id="temp_calibrated">
+                        <h4>Калиброванные данные температуры</h4>
+                        <div class="input-box">
+                            <label>t1, °C</label>
+                            <input type="text" id="t1_1_cal" placeholder="°C">
+                        </div>
+                        <div class="input-box">
+                            <label>t2, °C</label>
+                            <input type="text" id="t2_1_cal" placeholder="°C">
+                        </div>
+                        <div class="input-box">
+                            <label>t3, °C</label>
+                            <input type="text" id="t3_1_cal" placeholder="°C">
+                        </div>
+                        <div class="input-box">
+                            <label>t4, °C</label>
+                            <input type="text" id="t4_1_cal" placeholder="°C">
+                        </div>
+                        <div class="input-box">
+                            <label>t5, °C</label>
+                            <input type="text" id="t5_1_cal" placeholder="°C">
+                        </div>
+                        <div class="input-box">
+                            <label>t6, °C</label>
+                            <input type="text" id="t6_1_cal" placeholder="°C">
+                        </div>
+                    </div>
+
                     <div class="sensor" id="load">
+                        <h4>Сырые данные нагрузки</h4>
                         <div class="input-box">
                             <label>l1</label>
-                            <input type="text" id="l1_1" placeholder="C">
+                            <input type="text" id="l1_1" placeholder="raw">
                         </div>
                         <div class="input-box">
                             <label>l2</label>
-                            <input type="text" id="l2_1" placeholder="C">
+                            <input type="text" id="l2_1" placeholder="raw">
                         </div>
                         <div class="input-box">
                             <label>l3</label>
-                            <input type="text" id="l3_1" placeholder="C">
+                            <input type="text" id="l3_1" placeholder="raw">
                         </div>
                         <div class="input-box">
                             <label>l4</label>
-                            <input type="text" id="l4_1" placeholder="C">
+                            <input type="text" id="l4_1" placeholder="raw">
                         </div>
                         <div class="input-box">
                             <label>l5</label>
-                            <input type="text" id="l5_1" placeholder="C">
+                            <input type="text" id="l5_1" placeholder="raw">
                         </div>
                         <div class="input-box">
                             <label>l6</label>
-                            <input type="text" id="l6_1" placeholder="C">
+                            <input type="text" id="l6_1" placeholder="raw">
                         </div>
                         <div class="input-box">
                             <label>s</label>
                             <input type="text" id="s_1" placeholder="s">
                         </div>
                     </div>
+
+                    <div class="sensor" id="load_calibrated">
+                        <h4>Калиброванные данные нагрузки</h4>
+                        <div class="input-box">
+                            <label>l1, %</label>
+                            <input type="text" id="l1_1_cal" placeholder="%">
+                        </div>
+                        <div class="input-box">
+                            <label>l2, %</label>
+                            <input type="text" id="l2_1_cal" placeholder="%">
+                        </div>
+                        <div class="input-box">
+                            <label>l3, %</label>
+                            <input type="text" id="l3_1_cal" placeholder="%">
+                        </div>
+                        <div class="input-box">
+                            <label>l4, %</label>
+                            <input type="text" id="l4_1_cal" placeholder="%">
+                        </div>
+                        <div class="input-box">
+                            <label>l5, %</label>
+                            <input type="text" id="l5_1_cal" placeholder="%">
+                        </div>
+                        <div class="input-box">
+                            <label>l6, %</label>
+                            <input type="text" id="l6_1_cal" placeholder="%">
+                        </div>
+                    </div>
+
                     <div class="sensor" id="motor">
+                        <h4>Сырые данные энкодеров</h4>
                         <div class="input-box">
                             <label>m1</label>
-                            <input type="text" id="m1_1" placeholder="C">
+                            <input type="text" id="m1_1" placeholder="raw">
                         </div>
                         <div class="input-box">
                             <label>m2</label>
-                            <input type="text" id="m2_1" placeholder="C">
+                            <input type="text" id="m2_1" placeholder="raw">
                         </div>
                         <div class="input-box">
                             <label>m3</label>
-                            <input type="text" id="m3_1" placeholder="C">
+                            <input type="text" id="m3_1" placeholder="raw">
                         </div>
                         <div class="input-box">
                             <label>m4</label>
-                            <input type="text" id="m4_1" placeholder="C">
+                            <input type="text" id="m4_1" placeholder="raw">
                         </div>
                         <div class="input-box">
                             <label>m5</label>
-                            <input type="text" id="m5_1" placeholder="C">
+                            <input type="text" id="m5_1" placeholder="raw">
                         </div>
                         <div class="input-box">
                             <label>m6</label>
-                            <input type="text" id="m6_1" placeholder="C">
+                            <input type="text" id="m6_1" placeholder="raw">
                         </div>
                         <div class="input-box">
                             <label>c</label>
@@ -203,31 +264,31 @@
                     </div>
 
                     <div class="sensor" id="motor_priv">
+                        <h4>Калиброванные данные энкодеров</h4>
                         <div class="input-box">
-                            <label>m1_priv, об. градусы</label>
-                            <input type="text" id="m1_1_priv" placeholder="C">
+                            <label>m1, градусы</label>
+                            <input type="text" id="m1_1_priv" placeholder="°">
                         </div>
                         <div class="input-box">
-                            <label>m2_priv, об. градусы</label>
-                            <input type="text" id="m2_1_priv" placeholder="C">
+                            <label>m2, градусы</label>
+                            <input type="text" id="m2_1_priv" placeholder="°">
                         </div>
                         <div class="input-box">
-                            <label>m3_priv, об. градусы</label>
-                            <input type="text" id="m3_1_priv" placeholder="C">
+                            <label>m3, градусы</label>
+                            <input type="text" id="m3_1_priv" placeholder="°">
                         </div>
                         <div class="input-box">
-                            <label>m4_priv, об. градусы</label>
-                            <input type="text" id="m4_1_priv" placeholder="C">
+                            <label>m4, градусы</label>
+                            <input type="text" id="m4_1_priv" placeholder="°">
                         </div>
                         <div class="input-box">
-                            <label>m5_priv, об. градусы</label>
-                            <input type="text" id="m5_1_priv" placeholder="C">
+                            <label>m5, градусы</label>
+                            <input type="text" id="m5_1_priv" placeholder="°">
                         </div>
                         <div class="input-box">
-                            <label>m6_priv, об. градусы</label>
-                            <input type="text" id="m6_1_priv" placeholder="C">
+                            <label>m6, градусы</label>
+                            <input type="text" id="m6_1_priv" placeholder="°">
                         </div>
-
                     </div>
 
                 </div>

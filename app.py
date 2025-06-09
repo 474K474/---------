@@ -63,18 +63,14 @@ def check_critical_states():
 def period_log():
     while True:
         if logger.is_logging:
-            # Логируем температуру и состояние роботов
+            # Логируем данные роботов
             for robot in [robotVacuum, robotGripper]:
                 logger.insert_temperature(robot)
                 logger.insert_robot_state(robot)
             
-            # Логируем состояние камеры
-            logger.insert_camera_state(smartCamera)
-            
-            # Логируем состояние сигнальных ламп
+            # Логируем данные других устройств
+            logger.insert_camera_data(smartCamera)
             logger.insert_traffic_lights_state(trafficLights)
-            
-            # Логируем состояние удаленного терминала
             logger.insert_remote_terminal_state(remoteTerminal)
             
             # Проверяем критические состояния
@@ -88,7 +84,7 @@ def period_log():
             print('Данные сохранены в БД')
         else:
             print('Логирование отключено')
-        time.sleep(5)
+        time.sleep(10)
 
 
 thread = threading.Thread(target=period_log)

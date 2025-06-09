@@ -106,14 +106,33 @@ input:checked + .slider:before {
     align-content: center;
 }
 
-.sensor{
-    width: 33%;
-    height: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-content: center;
-    align-items: center ;
+.sensor {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.sensor h4 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 14px;
+}
+
+#temp_calibrated, #load_calibrated {
+    background-color: #f0f8ff;  /* Светло-голубой фон для калиброванных данных */
+}
+
+#temp_calibrated input, #load_calibrated input, #motor_priv input {
+    color: #006400;  /* Темно-зеленый цвет для калиброванных значений */
+    font-weight: bold;
+}
+
+/* Стили для значений с ошибками */
+input[value="ERR"] {
+    color: #ff0000 !important;  /* Красный цвет для ошибок */
+    font-weight: bold;
 }
 
 .control{

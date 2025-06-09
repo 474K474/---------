@@ -21,40 +21,60 @@ class Logger:
             print("Database connection not available")
             return None
             
+        # Получаем сырые и калиброванные данные
+        calibrated_data = robot.get_calibrated_data()
+        
         result = {
             'timeStamp': datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S'),
             'robotName': robot.name,
-            't1': robot.t1,
-            't2': robot.t2,
-            't3': robot.t3,
-            't4': robot.t4,
-            't5': robot.t5,
-            't6': robot.t6
+            'raw_data': {
+                't1': robot.t1,
+                't2': robot.t2,
+                't3': robot.t3,
+                't4': robot.t4,
+                't5': robot.t5,
+                't6': robot.t6
+            },
+            'calibrated_data': calibrated_data['temperatures']
         }
-        return self.db[robot.name+'_temperature'].insert_one(result)
+        
+        self.db[robot.name + '_temperature'].insert_one(result)
 
     def insert_robot_state(self, robot):
         if self.db is None:
             print("Database connection not available")
             return None
             
+        # Получаем сырые и калиброванные данные
+        calibrated_data = robot.get_calibrated_data()
+        
         result = {
             'timeStamp': datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S'),
             'robotName': robot.name,
-            'status': robot.s,
-            'counter': robot.c,
-            'motors': {
-                'm1': robot.m1, 'm2': robot.m2, 'm3': robot.m3,
-                'm4': robot.m4, 'm5': robot.m5, 'm6': robot.m6
+            'raw_data': {
+                's': robot.s,
+                'c': robot.c,
+                'm1': robot.m1,
+                'm2': robot.m2,
+                'm3': robot.m3,
+                'm4': robot.m4,
+                'm5': robot.m5,
+                'm6': robot.m6,
+                'l1': robot.l1,
+                'l2': robot.l2,
+                'l3': robot.l3,
+                'l4': robot.l4,
+                'l5': robot.l5,
+                'l6': robot.l6
             },
-            'loads': {
-                'l1': robot.l1, 'l2': robot.l2, 'l3': robot.l3,
-                'l4': robot.l4, 'l5': robot.l5, 'l6': robot.l6
+            'calibrated_data': {
+                'loads': calibrated_data['loads']
             }
         }
-        return self.db[robot.name+'_state'].insert_one(result)
+        
+        self.db[robot.name + '_state'].insert_one(result)
 
-    def insert_camera_state(self, camera):
+    def insert_camera_data(self, camera):
         if self.db is None:
             print("Database connection not available")
             return None
@@ -63,7 +83,8 @@ class Logger:
             'timeStamp': datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S'),
             'code': camera.code
         }
-        return self.db['smart_camera'].insert_one(result)
+        
+        self.db['camera_data'].insert_one(result)
 
     def insert_traffic_lights_state(self, lights):
         if self.db is None:
@@ -72,12 +93,13 @@ class Logger:
             
         result = {
             'timeStamp': datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S'),
-            'blue': lights.L1,
-            'red': lights.L2,
-            'yellow': lights.L3,
-            'green': lights.L4
+            'L1': lights.L1,
+            'L2': lights.L2,
+            'L3': lights.L3,
+            'L4': lights.L4
         }
-        return self.db['traffic_lights'].insert_one(result)
+        
+        self.db['traffic_lights_state'].insert_one(result)
 
     def insert_remote_terminal_state(self, terminal):
         if self.db is None:
@@ -87,19 +109,22 @@ class Logger:
         result = {
             'timeStamp': datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S'),
             'switch': terminal.p,
-            'button1': terminal.b1,
-            'button2': terminal.b2,
-            'button3': terminal.b3,
+            'buttons': {
+                'b1': terminal.b1,
+                'b2': terminal.b2,
+                'b3': terminal.b3
+            },
             'indicators': {
-                'blue': terminal.L1,
-                'red': terminal.L2,
-                'yellow': terminal.L3,
-                'green': terminal.L4
+                'L1': terminal.L1,
+                'L2': terminal.L2,
+                'L3': terminal.L3,
+                'L4': terminal.L4
             }
         }
-        return self.db['remote_terminal'].insert_one(result)
+        
+        self.db['remote_terminal_state'].insert_one(result)
 
-    def insert_critical_state(self, device_name, parameter, value, threshold, message):
+    def insert_critical_state(self, device_name, parameter, value, threshold, description):
         if self.db is None:
             print("Database connection not available")
             return None
@@ -110,9 +135,10 @@ class Logger:
             'parameter': parameter,
             'value': value,
             'threshold': threshold,
-            'message': message
+            'description': description
         }
-        return self.db['critical_states'].insert_one(result)
+        
+        self.db['critical_states'].insert_one(result)
 
     def get_temperature_history(self, robot_name, limit=100):
         if self.db is None:
@@ -146,14 +172,15 @@ class Logger:
         return list(self.db['critical_states'].find().sort('timeStamp', -1).limit(limit))
 
     def clear_old_data(self, days=30):
-        """Удаляет данные старше указанного количества дней"""
+        """Очистка данных старше указанного количества дней"""
         if self.db is None:
             print("Database connection not available")
-            return
+            return None
             
-        threshold = datetime.datetime.now() - datetime.timedelta(days=days)
-        for collection in self.db.list_collection_names():
-            self.db[collection].delete_many({
-                'timeStamp': {'$lt': threshold.strftime('%d-%m-%Y %H:%M:%S')}
-            })
+        cutoff_date = datetime.datetime.now() - datetime.timedelta(days=days)
+        cutoff_str = cutoff_date.strftime('%d-%m-%Y %H:%M:%S')
+        
+        collections = self.db.list_collection_names()
+        for collection in collections:
+            self.db[collection].delete_many({'timeStamp': {'$lt': cutoff_str}})
 
